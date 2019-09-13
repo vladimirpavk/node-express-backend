@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { MainRouterClass } from './router/main.router';
 
 export class AppClass{
     private _expressServer: express.Express;
@@ -7,6 +8,10 @@ export class AppClass{
     constructor(){
         console.log('Application started...');
         this._expressServer = express();
+        
+        let mainRouter:MainRouterClass=new MainRouterClass();
+        this._expressServer.use(mainRouter.router);
+
         this._startServer();
     }
 
