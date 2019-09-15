@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { MessageRouterClass } from './message.router';
+import { CookieRouterClass } from './cookie.router';
 
 export class MainRouterClass{
     private _router:Router;
@@ -9,7 +10,11 @@ export class MainRouterClass{
     
     constructor(){
         this._router = Router();
+
         let messageRouter = new MessageRouterClass();
-        this._router.use('/', messageRouter.router);
+        this._router.use('/message', messageRouter.router);
+        
+        let cookieRouter = new CookieRouterClass();
+        this._router.use('/cookie', cookieRouter.router);
     }
 }

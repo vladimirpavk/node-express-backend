@@ -1,6 +1,8 @@
 import { Router, Request, Response  } from 'express';
 import * as bodyParser from 'body-parser';
 
+import { MessageWelcomeRouterClass } from './message.welcome.router';
+
 export class MessageRouterClass{
     private _router:Router;
     get router():Router{
@@ -16,8 +18,11 @@ export class MessageRouterClass{
             })
         );
 
-        this._router.get('/message', this._get);
-        this._router.post('/message', this._post);
+        this._router.get('/', this._get);
+        this._router.post('/', this._post);
+
+        let mrc = new MessageWelcomeRouterClass();
+        this._router.use('/message', mrc.router);
     }
 
     private _get(req:Request, res:Response){        

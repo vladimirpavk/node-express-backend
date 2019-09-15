@@ -1,4 +1,7 @@
 import * as express from 'express';
+import * as httpServer from 'http';
+import * as io from 'socket.io';
+
 import { MainRouterClass } from './router/main.router';
 
 export class AppClass{
@@ -7,8 +10,18 @@ export class AppClass{
 
     constructor(){
         console.log('Application started...');
+
         this._expressServer = express();
-        
+
+        let _httpServer:httpServer.Server = new httpServer.Server(this._expressServer);
+        let webSocket = io(_httpServer);
+
+        webSocket.on('connection',
+            (s:io.Socket)=>{
+                console.log('socket.io connection...', s);
+            }
+        );
+
         let mainRouter:MainRouterClass=new MainRouterClass();
         this._expressServer.use(mainRouter.router);
 
