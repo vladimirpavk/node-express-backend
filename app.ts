@@ -1,5 +1,5 @@
 import * as express from 'express';
-import * as httpServer from 'http';
+import * as http from 'http';
 import * as io from 'socket.io';
 import * as WebSocket from 'ws';
 
@@ -16,17 +16,21 @@ export class AppClass{
         let mainRouter:MainRouterClass=new MainRouterClass();
         expressServer.use(mainRouter.router);        
 
-        const server = new httpServer.Server(expressServer);
+        const server = http.createServer(expressServer);
         
- /*        let webSocket:io.Server = io(server);        
+        let webSocket:io.Server = io(server);
         webSocket.on('connection',
             (s:io.Socket)=>{
                 console.log('socket.io connection...', s);
+                s.on('message',
+                    (msg:string)=>{
+                        console.log(msg);
+                    })
             }
-        ); */
-        const wss = new WebSocket.Server({server});
+        );
+        //const wss = new WebSocket.Server({server});
 
-        wss.on('connection', (ws: WebSocket) => {
+       /*  wss.on('connection', (ws: WebSocket) => {
             console.log('socket.io connection...');
             //connection is up, let's add a simple simple event
             ws.on('message', (message: string) => {
@@ -38,7 +42,7 @@ export class AppClass{
         
             //send immediatly a feedback to the incoming connection    
             ws.send('Hi there, I am a WebSocket server');
-        });
+        }); */
 
         server.listen(
             this._port,
