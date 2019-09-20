@@ -18,7 +18,7 @@ export class AppClass{
 
         const server = http.createServer(expressServer);
         
-        let webSocket:io.Server = io(server);
+     /*    let webSocket:io.Server = io(server);
         webSocket.on('connection',
             (s:io.Socket)=>{
                 console.log('socket.io connection...', s);
@@ -27,10 +27,11 @@ export class AppClass{
                         console.log(msg);
                     })
             }
-        );
-        //const wss = new WebSocket.Server({server});
+        ); */
+        
+        const wss = new WebSocket.Server({server});
 
-       /*  wss.on('connection', (ws: WebSocket) => {
+        wss.on('connection', (ws: WebSocket) => {
             console.log('socket.io connection...');
             //connection is up, let's add a simple simple event
             ws.on('message', (message: string) => {
@@ -42,7 +43,7 @@ export class AppClass{
         
             //send immediatly a feedback to the incoming connection    
             ws.send('Hi there, I am a WebSocket server');
-        }); */
+        });
 
         server.listen(
             this._port,
@@ -50,18 +51,5 @@ export class AppClass{
                 console.log('Server is listening on port ', this._port);
             }
         );
-
-        /* this._httpServer = this._expressServer.listen(
-            this._port,
-            ()=>{
-                console.log('Server is listening on port ', this._port);
-                let webSocket = io(this._httpServer);
-                webSocket.on('connection',
-                    (s:io.Socket)=>{
-                        console.log('socket.io connection...', s);
-                    }
-                );
-            }
-        )               */
     }    
 }
