@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as http from 'http';
-import * as io from 'socket.io';
+import * as socketIo from 'socket.io';
 import * as WebSocket from 'ws';
 
 import { MainRouterClass } from './router/main.router';
@@ -10,17 +10,30 @@ export class AppClass{
 
     constructor(){
         console.log('Application started...');
-
-        const expressServer = express();        
+        
+        //socket.io standalone server
+        let ioServer = socketIo();
+        ioServer.on('connection',
+            (s)=>{
+                console.log('socket.io connection...', s);
+                s.on('message',
+                    (msg:string)=>{
+                        console.log(msg);
+                    })
+            }
+        );
+        ioServer.listen(3080);
+        
+     /*    const expressServer = express();        
 
         let mainRouter:MainRouterClass=new MainRouterClass();
         expressServer.use(mainRouter.router);        
 
         const server = http.createServer(expressServer);
         
-     /*    let webSocket:io.Server = io(server);
+        let webSocket = socketIo(server);
         webSocket.on('connection',
-            (s:io.Socket)=>{
+            (s)=>{
                 console.log('socket.io connection...', s);
                 s.on('message',
                     (msg:string)=>{
@@ -29,7 +42,7 @@ export class AppClass{
             }
         ); */
         
-        const wss = new WebSocket.Server({server});
+/*         const wss = new WebSocket.Server({server});
 
         wss.on('connection', (ws: WebSocket) => {
             console.log('socket.io connection...');
@@ -43,13 +56,13 @@ export class AppClass{
         
             //send immediatly a feedback to the incoming connection    
             ws.send('Hi there, I am a WebSocket server');
-        });
+        }); */
 
-        server.listen(
+     /*    server.listen(
             this._port,
             ()=>{
                 console.log('Server is listening on port ', this._port);
             }
-        );
+        ); */
     }    
 }
