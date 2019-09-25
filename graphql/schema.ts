@@ -2,12 +2,7 @@ import { buildSchema } from 'graphql';
 
 export class GraphqlSchema{
     public getSchema(){
-        return buildSchema(`
-            type ResponseData{
-                text: String!
-                value: Int!
-            }
-
+        return buildSchema(`           
             type ResponseData3{
                 name: String!
                 lastname: String!
@@ -18,13 +13,22 @@ export class GraphqlSchema{
                 data: ResponseData3
             }
 
+            type ResponseData{
+                text: String!
+                value: Int!
+            }
+
             type RootQuery {
-                hello: ResponseData,
-                findById: ResponseData2
+                hello: ResponseData,                
+            }
+
+            type MutationQuery{
+                findById(userId:Int):ResponseData2!
             }
 
             schema {
                 query: RootQuery
+                mutation: MutationQuery
             }
         `);
     }

@@ -6,7 +6,8 @@ export class GraphqlResolvers{
         }
     }
 
-    public findById(){
+    public findById(userId:number){
+        console.log(userId);
         return{
             id: 123,
             data: {

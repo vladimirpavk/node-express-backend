@@ -24,7 +24,8 @@ export class AppClass{
             '/graphql',
             graphqlHttp({
                 schema: graphqlSchema.getSchema(),
-                rootValue: graphqlResolvers
+                rootValue: graphqlResolvers,
+                graphiql: true
             })
         );
 
