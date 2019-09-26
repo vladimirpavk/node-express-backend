@@ -25,9 +25,17 @@ export class AppClass{
             graphqlHttp({
                 schema: graphqlSchema.getSchema(),
                 rootValue: graphqlResolvers,
-                graphiql: true
+                graphiql: true/* ,
+                customFormatErrorFn(error){
+                    console.log(error);
+                    return error;
+                } */
             })
         );
+
+        expressServer.use((error, req, res, next)=>{
+            console.log(error);
+        });
 
         const server = http.createServer(expressServer);
         server.listen(
